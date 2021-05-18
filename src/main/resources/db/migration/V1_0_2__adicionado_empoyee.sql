@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS `academiadb`.`employee` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(150) NOT NULL,
+  `password` VARCHAR(150) NOT NULL,
+  `login` VARCHAR(150) NOT NULL,
+  `email` VARCHAR(50) NULL DEFAULT NULL,
+  `created_on` DATETIME NULL DEFAULT NULL,
+  `updated_on` DATETIME NULL DEFAULT NULL,
+  `deleted` BIT(1) NULL DEFAULT b'0',
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
