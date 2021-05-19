@@ -20,20 +20,20 @@ public class Address {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "bairro")
-    private String bairro;
+    @Column(name = "district")
+    private String district;
 
-    @Column(name = "cidade")
-    private String cidade;
+    @Column(name = "city")
+    private String city;
 
     @Column(name = "student_id", nullable = false)
     private Long studentId;
 
-    @Column(name = "logradouro")
-    private String logradouro;
+    @Column(name = "public_place")
+    private String publicPlace;
 
-    @Column(name = "cep")
-    private String cep;
+    @Column(name = "post_code")
+    private String postCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", insertable = false, updatable = false)

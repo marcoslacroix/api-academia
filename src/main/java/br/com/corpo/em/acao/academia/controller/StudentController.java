@@ -1,6 +1,7 @@
 package br.com.corpo.em.acao.academia.controller;
 
 import br.com.corpo.em.acao.academia.dto.student.StudentDto;
+import br.com.corpo.em.acao.academia.dto.student.create.AddressCreateDto;
 import br.com.corpo.em.acao.academia.dto.student.create.StudentCreateDto;
 import br.com.corpo.em.acao.academia.dto.student.update.StudentUpdateDto;
 import br.com.corpo.em.acao.academia.service.StudentService;
@@ -36,6 +37,12 @@ public class StudentController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         studentService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping
+    @ApiOperation(value = "Create address to a student", response = StudentDto.class)
+    public ResponseEntity<StudentDto> createAddress(@RequestBody @Valid AddressCreateDto addressCreateDto) {
+        return null;
     }
 
     @GetMapping

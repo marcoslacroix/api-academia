@@ -1,0 +1,5 @@
+ALTER TABLE `academiadb`.`address`
+CHANGE COLUMN `bairro` `district` VARCHAR(45) NULL DEFAULT NULL ,
+CHANGE COLUMN `cidade` `city` VARCHAR(45) NULL DEFAULT NULL ,
+CHANGE COLUMN `logradouro` `publicPlace` VARCHAR(100) NULL DEFAULT NULL ,
+CHANGE COLUMN `cep` `post_code` VARCHAR(45) NULL DEFAULT NULL ;
