@@ -7,6 +7,7 @@ import br.com.corpo.em.acao.academia.dto.user.update.UserUpdateDto;
 import br.com.corpo.em.acao.academia.mapper.user.UserCreateMapper;
 import br.com.corpo.em.acao.academia.mapper.user.UserMapper;
 import br.com.corpo.em.acao.academia.model.User;
+import br.com.corpo.em.acao.academia.repository.CompanyRepository;
 import br.com.corpo.em.acao.academia.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,9 +29,13 @@ import static java.util.Objects.nonNull;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final CompanyRepository companyRepository;
 
     @Transactional
     public UserDto create(UserCreateDto userCreateDto) {
+        if (isNull(companyRepository.findById(userCreateDto.getCompanyId()).orElse(null))) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Empresa não existe");
+        }
         if (nonNull(userRepository.getUserByLogin(userCreateDto.getLogin()))) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST ,"Usuário já cadastrado");
         }

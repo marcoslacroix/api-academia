@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import uk.co.jemos.podam.common.PodamExclude;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -47,6 +48,7 @@ public class User {
     @Column(name = "company_id", nullable = false)
     private Long companyId;
 
+    @PodamExclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", insertable = false, updatable = false)
     private Company company;

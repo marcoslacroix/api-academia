@@ -68,7 +68,7 @@ public class StudentService {
     public void delete(Long id) {
         Student student = studentRepository.findById(id).orElse(null);
         if (isNull(student)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Student not found.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Aluno não encontrado.");
         }
         student.setUpdatedOn(LocalDateTime.now());
         student.setDeleted(true);

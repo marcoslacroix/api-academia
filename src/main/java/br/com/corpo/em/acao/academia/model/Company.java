@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import uk.co.jemos.podam.common.PodamExclude;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -36,9 +37,11 @@ public class Company {
     @Column(name = "updatedOn")
     private LocalDateTime updatedOn;
 
+    @PodamExclude
     @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
     private List<User> users;
 
+    @PodamExclude
     @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
     private List<Student> students;
 }
