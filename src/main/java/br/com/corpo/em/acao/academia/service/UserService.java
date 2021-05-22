@@ -6,19 +6,18 @@ import br.com.corpo.em.acao.academia.dto.user.create.UserCreateDto;
 import br.com.corpo.em.acao.academia.dto.user.update.UserUpdateDto;
 import br.com.corpo.em.acao.academia.mapper.user.UserCreateMapper;
 import br.com.corpo.em.acao.academia.mapper.user.UserMapper;
+import br.com.corpo.em.acao.academia.model.Company;
 import br.com.corpo.em.acao.academia.model.User;
 import br.com.corpo.em.acao.academia.repository.CompanyRepository;
 import br.com.corpo.em.acao.academia.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
@@ -33,12 +32,9 @@ public class UserService {
 
     @Transactional
     public UserDto create(UserCreateDto userCreateDto) {
-        if (isNull(companyRepository.findById(userCreateDto.getCompanyId()).orElse(null))) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Empresa não existe");
-        }
-        if (nonNull(userRepository.getUserByLogin(userCreateDto.getLogin()))) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST ,"Usuário já cadastrado");
-        }
+        verifyCompanyExists(userCreateDto.getCompanyId());
+        verifyUserLoginExists(userCreateDto.getLogin());
+
         User user = UserCreateMapper.INSTANCE.toUser(userCreateDto);
         user.setPassword(PasswordEncoder.passwordEncoder().encode(user.getPassword()));
 
@@ -46,6 +42,20 @@ public class UserService {
 
         return UserMapper.INSTANCE.toDto(user);
 
+    }
+
+    public void verifyUserLoginExists(String userLogin) {
+        User user = userRepository.getUserByLogin(userLogin);
+        if (nonNull(user)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST ,"Usuário já cadastrado");
+        }
+    }
+
+    public void verifyCompanyExists(Long companyId) {
+        Company company = companyRepository.findById(companyId).orElse(null);
+        if (isNull(company)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Empresa não existe");
+        }
     }
 
     @Transactional
@@ -83,11 +93,11 @@ public class UserService {
         userRepository.save(user);
     }
 
-    private User findById(Long id) {
+    public User findById(Long id) {
         User user = userRepository.findById(id).orElse(null);
         if (isNull(user)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    String.format("UUID %s not found ", id));
+                    String.format("Usuário com o ID %s não encontrado ", id));
         }
         return user;
     }

@@ -25,20 +25,32 @@ public class CompanyService {
 
     @Transactional
     public CompanyDto create(CompanyCreateDto companyCreateDto) {
-        if (nonNull(companyRepository.findByName(companyCreateDto.getName()).orElse(null))) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Empresa já cadastrada");
-        }
+        verifyCompanyExists(companyCreateDto.getName());
         Company company = CompanyCreateMapper.INSTANCE.toCompany(companyCreateDto);
         companyRepository.save(company);
         return CompanyMapper.INSTANCE.toCompanyDto(company);
     }
 
-    @Transactional
-    public void delete(Long id) {
+    private void verifyCompanyExists(String companyName) {
+        Company company = companyRepository.findByName(companyName).orElse(null);
+        if (nonNull(company)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Empresa já cadastrada");
+        }
+    }
+
+    public Company findById(Long id) {
         Company company = companyRepository.findById(id).orElse(null);
         if (isNull(company)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Empresa não encontrada");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    String.format("Empresa com o ID %s não encontrada ", id));
         }
+        return company;
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Company company = findById(id);
         company.setUpdatedOn(LocalDateTime.now());
         company.setDeleted(true);
         companyRepository.save(company);
