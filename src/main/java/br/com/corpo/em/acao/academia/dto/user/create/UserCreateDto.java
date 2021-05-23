@@ -19,7 +19,7 @@ public class UserCreateDto {
     String password;
 
     @ApiModelProperty(name = "Login do usuário", example = "jose02")
-    String login;
+    String username;
 
     @ApiModelProperty(name = "Email do usuário", example = "jose@gmail.com")
     String email;

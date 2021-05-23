@@ -28,12 +28,17 @@ public class StudentService {
 
     @Transactional
     public StudentDto create(StudentCreateDto studentCreateDto) {
-        if (nonNull(studentRepository.findByDeletedFalseAndCpf(removeMask(studentCreateDto.getCpf())))) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cpf já cadastrado.");
-        }
+        verifyCpfAlreadyRegistered(studentCreateDto.getCpf());
         Student student = StudentCreateMapper.INSTANCE.toStudent(studentCreateDto);
         studentRepository.save(student);
         return StudentMapper.INSTANCE.toStudentDto(student);
+    }
+
+    public void verifyCpfAlreadyRegistered(String cpf) {
+        Student student = studentRepository.findByDeletedFalseAndCpf(removeMask(cpf));
+        if (nonNull(student)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cpf já cadastrado.");
+        }
     }
 
     private String removeMask(String cnpj) {
@@ -46,10 +51,7 @@ public class StudentService {
 
     @Transactional
     public StudentDto update(StudentUpdateDto studentUpdateDto) {
-        Student student = studentRepository.findById(studentUpdateDto.getId()).orElse(null);
-        if (isNull(student)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário não encontrado");
-        }
+        Student student = verifyStudentExists(studentUpdateDto.getId());
         student.setName(studentUpdateDto.getName());
         student.setCpf(removeMask(studentUpdateDto.getCpf()));
         student.setEmail(studentUpdateDto.getEmail());
@@ -66,10 +68,7 @@ public class StudentService {
 
     @Transactional
     public void delete(Long id) {
-        Student student = studentRepository.findById(id).orElse(null);
-        if (isNull(student)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Student not found.");
-        }
+        Student student = verifyStudentExists(id);
         student.setUpdatedOn(LocalDateTime.now());
         student.setDeleted(true);
         studentRepository.save(student);
@@ -83,4 +82,13 @@ public class StudentService {
         }
         return dtos;
     }
+
+    public Student verifyStudentExists(Long id) {
+        Student student = studentRepository.findById(id).orElse(null);
+        if (isNull(student)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Aluno não encontrado.");
+        }
+        return student;
+    }
+
 }

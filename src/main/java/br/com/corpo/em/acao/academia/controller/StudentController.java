@@ -39,7 +39,7 @@ public class StudentController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping
+    @PostMapping("/address")
     @ApiOperation(value = "Create address to a student", response = StudentDto.class)
     public ResponseEntity<StudentDto> createAddress(@RequestBody @Valid AddressCreateDto addressCreateDto) {
         return null;

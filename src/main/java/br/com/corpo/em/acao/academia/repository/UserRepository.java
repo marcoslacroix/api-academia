@@ -10,9 +10,7 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-
-    @Query("SELECT u FROM User u WHERE u.login = :login")
-    User getUserByLogin(@Param("login") String login);
+    User getUserByUsername(String login);
 
     List<User> findByCompanyId(Long id);
 }

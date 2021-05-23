@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import uk.co.jemos.podam.common.PodamExclude;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -29,7 +30,7 @@ public class User {
     private String password;
 
     @Column(name = "login")
-    private String login;
+    private String username;
 
     @Column(name = "email")
     private String email;
@@ -44,9 +45,14 @@ public class User {
     @Builder.Default
     private boolean deleted = false;
 
+    @Column(name = "admin")
+    @Builder.Default
+    private boolean admin = false;
+
     @Column(name = "company_id", nullable = false)
     private Long companyId;
 
+    @PodamExclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", insertable = false, updatable = false)
     private Company company;
