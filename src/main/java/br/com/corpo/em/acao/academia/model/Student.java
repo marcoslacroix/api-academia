@@ -59,10 +59,6 @@ public class Student {
     @Builder.Default
     private boolean deleted = false;
 
-    @Column(name = "active_enrollment")
-    @Builder.Default
-    private boolean activeEnrollment = false;
-
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private List<Address> address;
 
