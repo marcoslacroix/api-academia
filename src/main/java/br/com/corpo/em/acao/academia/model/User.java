@@ -30,7 +30,7 @@ public class User {
     private String password;
 
     @Column(name = "login")
-    private String login;
+    private String username;
 
     @Column(name = "email")
     private String email;
@@ -44,6 +44,10 @@ public class User {
     @Column(name = "deleted")
     @Builder.Default
     private boolean deleted = false;
+
+    @Column(name = "admin")
+    @Builder.Default
+    private boolean admin = false;
 
     @Column(name = "company_id", nullable = false)
     private Long companyId;
