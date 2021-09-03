@@ -23,8 +23,4 @@ public class UserCreateDto {
 
     @ApiModelProperty(name = "Email do usuário", example = "jose@gmail.com")
     String email;
-
-    @ApiModelProperty(name = "Id da empresa", example = "1")
-    Long companyId;
-
 }

@@ -1,13 +1,20 @@
 package br.com.corpo.em.acao.academia.service;
 
 import br.com.corpo.em.acao.academia.dto.student.StudentDto;
+import br.com.corpo.em.acao.academia.dto.student.create.AddressCreateDto;
 import br.com.corpo.em.acao.academia.dto.student.create.StudentCreateDto;
 import br.com.corpo.em.acao.academia.dto.student.update.StudentUpdateDto;
+import br.com.corpo.em.acao.academia.mapper.address.AddressCreateMapper;
 import br.com.corpo.em.acao.academia.mapper.student.StudentCreateMapper;
 import br.com.corpo.em.acao.academia.mapper.student.StudentMapper;
+import br.com.corpo.em.acao.academia.model.Address;
 import br.com.corpo.em.acao.academia.model.Student;
+import br.com.corpo.em.acao.academia.model.User;
+import br.com.corpo.em.acao.academia.repository.AddressRepository;
 import br.com.corpo.em.acao.academia.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,12 +81,9 @@ public class StudentService {
         studentRepository.save(student);
     }
 
-    public List<StudentDto> findAll() {
-        List<Student> student = studentRepository.findAll();
-        List<StudentDto> dtos = new ArrayList<>();
-        for (Student st : student) {
-            dtos.add(StudentMapper.INSTANCE.toStudentDto(st));
-        }
+    public Page<StudentDto> findAll(Pageable pageable) {
+        Page<Student> student = studentRepository.findAll(pageable);
+        Page<StudentDto> dtos = student.map(StudentMapper.INSTANCE::toStudentDto);
         return dtos;
     }
 
@@ -90,5 +94,4 @@ public class StudentService {
         }
         return student;
     }
-
 }

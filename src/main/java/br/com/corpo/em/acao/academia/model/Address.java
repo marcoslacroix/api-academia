@@ -32,8 +32,11 @@ public class Address {
     @Column(name = "public_place")
     private String publicPlace;
 
-    @Column(name = "post_code")
-    private String postCode;
+    @Column(name = "postal_code")
+    private String postalCode;
+
+    @Column(name = "deleted")
+    private boolean deleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", insertable = false, updatable = false)

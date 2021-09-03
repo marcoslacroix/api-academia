@@ -14,17 +14,19 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 public class AddressCreateDto {
 
-    @ApiModelProperty(name = "")
+    @ApiModelProperty(name = "Bairro", example = "Praia Brava")
     String district;
 
+    @ApiModelProperty(name = "Cidade", example = "Florianópolis")
     String city;
 
+    @ApiModelProperty(name = "Id do estudante", example = "3")
     Long studentId;
 
+    @ApiModelProperty(name = "Logradouro endereço", example = "Av. tom traugott wildi")
     String publicPlace;
 
-    String postCode;
-
-    Student student;
+    @ApiModelProperty(name = "CEP", example = "88056-800")
+    String postalCode;
 
 }

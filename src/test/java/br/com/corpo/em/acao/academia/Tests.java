@@ -12,10 +12,4 @@ public abstract class Tests {
         podamFactory = new PodamFactoryImpl();
     }
 
-    public static User createUser(Long companyId) {
-        var user = podamFactory.manufacturePojo(User.class);
-        user.setCompanyId(companyId);
-        return user;
-    }
-
 }

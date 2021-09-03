@@ -99,18 +99,6 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldFindAllUserByCompanyId() {
-        // given
-        var userDto = createNewUser();
-
-        // when
-        List<UserDto> userDtoList = userService.findAllByCompanyId(userDto.getCompanyId());
-
-        // then
-        Assertions.assertTrue(userDtoList.size() > 0);
-    }
-
-    @Test
     public void shouldHaveUserRegisteredWithLogin(){
         // given
         var userDto = createNewUser();

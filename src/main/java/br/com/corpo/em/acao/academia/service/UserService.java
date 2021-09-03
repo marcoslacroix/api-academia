@@ -31,14 +31,20 @@ public class UserService {
     @Transactional
     public UserDto create(UserCreateDto userCreateDto) {
         verifyUserLoginExists(userCreateDto.getUsername());
+        verifyEmailExists(userCreateDto.getEmail());
 
         User user = UserCreateMapper.INSTANCE.toUser(userCreateDto);
         user.setPassword(encoder.encode(userCreateDto.getPassword()));
-
         userRepository.save(user);
 
         return UserMapper.INSTANCE.toDto(user);
+    }
 
+    private void verifyEmailExists(String email) {
+        User user = userRepository.getUserByEmail(email);
+        if (nonNull(user)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email já cadastrado");
+        }
     }
 
     public void verifyUserLoginExists(String userLogin) {
@@ -90,12 +96,5 @@ public class UserService {
                     String.format("Usuário com o ID %s não encontrado ", id));
         }
         return user;
-    }
-
-    public List<UserDto> findAllByCompanyId(Long id) {
-        List<User> userList = userRepository.findByCompanyId(id);
-        return userList.stream()
-                .map(it -> UserMapper.INSTANCE.toDto(it))
-                .collect(Collectors.toList());
     }
 }

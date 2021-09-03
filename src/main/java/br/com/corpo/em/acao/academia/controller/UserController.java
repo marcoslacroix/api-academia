@@ -48,10 +48,4 @@ public class UserController {
         userService.changePassword(newPassword, newPassword2, oldPassword, id);
         return ResponseEntity.noContent().build();
     }
-
-    @GetMapping("/{id}")
-    @ApiOperation(value = "Find all user by company ID")
-    public ResponseEntity<List<UserDto>> findAllUser(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.findAllByCompanyId(id));
-    }
 }
