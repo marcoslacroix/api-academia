@@ -5,15 +5,11 @@ import br.com.corpo.em.acao.academia.dto.user.create.UserCreateDto;
 import br.com.corpo.em.acao.academia.dto.user.update.UserUpdateDto;
 import br.com.corpo.em.acao.academia.mapper.user.UserCreateMapper;
 import br.com.corpo.em.acao.academia.mapper.user.UserMapper;
-import br.com.corpo.em.acao.academia.model.Company;
 import br.com.corpo.em.acao.academia.model.User;
-import br.com.corpo.em.acao.academia.repository.CompanyRepository;
 import br.com.corpo.em.acao.academia.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -30,12 +26,10 @@ import static java.util.Objects.nonNull;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final CompanyRepository companyRepository;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Transactional
     public UserDto create(UserCreateDto userCreateDto) {
-        verifyCompanyExists(userCreateDto.getCompanyId());
         verifyUserLoginExists(userCreateDto.getUsername());
 
         User user = UserCreateMapper.INSTANCE.toUser(userCreateDto);
@@ -51,13 +45,6 @@ public class UserService {
         User user = userRepository.getUserByUsername(userLogin);
         if (nonNull(user)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST ,"Usuário já cadastrado");
-        }
-    }
-
-    public void verifyCompanyExists(Long companyId) {
-        Company company = companyRepository.findById(companyId).orElse(null);
-        if (isNull(company)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Empresa não existe");
         }
     }
 
