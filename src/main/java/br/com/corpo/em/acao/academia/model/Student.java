@@ -52,9 +52,6 @@ public class Student {
     @Column(name = "updated_on")
     private LocalDateTime updatedOn;
 
-    @Column(name = "company_id")
-    private Long companyId;
-
     @Column(name = "deleted")
     @Builder.Default
     private boolean deleted = false;

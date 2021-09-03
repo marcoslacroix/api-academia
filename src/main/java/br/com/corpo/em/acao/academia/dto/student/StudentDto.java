@@ -1,9 +1,12 @@
 package br.com.corpo.em.acao.academia.dto.student;
 
+import br.com.corpo.em.acao.academia.dto.address.AddressDto;
+import br.com.corpo.em.acao.academia.model.Address;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Value
 @With

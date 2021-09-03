@@ -27,6 +27,4 @@ public class UserDto {
     LocalDateTime updatedOn;
 
     boolean deleted;
-
-    Long companyId;
 }

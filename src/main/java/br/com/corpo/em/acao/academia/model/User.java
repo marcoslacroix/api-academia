@@ -49,7 +49,4 @@ public class User {
     @Builder.Default
     private boolean admin = false;
 
-    @Column(name = "company_id", nullable = false)
-    private Long companyId;
-
 }
