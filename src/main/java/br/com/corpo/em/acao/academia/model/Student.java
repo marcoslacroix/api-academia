@@ -72,8 +72,4 @@ public class Student {
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private List<Enrollment> enrollments;
 
-    @PodamExclude
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id", insertable = false, updatable = false)
-    private Company company;
 }

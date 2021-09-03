@@ -36,8 +36,4 @@ public class StudentCreateDto {
 
     @ApiModelProperty(name = "Objetivo", example = "Perda de peso")
     String objective;
-
-    @ApiModelProperty(name = "ID da empresa que o aluno tem ligação", example = "1")
-    Long companyId;
-
 }

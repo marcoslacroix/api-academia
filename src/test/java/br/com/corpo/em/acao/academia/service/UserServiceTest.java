@@ -5,9 +5,7 @@ import br.com.corpo.em.acao.academia.dto.user.UserDto;
 import br.com.corpo.em.acao.academia.dto.user.create.UserCreateDto;
 import br.com.corpo.em.acao.academia.dto.user.update.UserUpdateDto;
 import br.com.corpo.em.acao.academia.mapper.user.UserCreateMapper;
-import br.com.corpo.em.acao.academia.model.Company;
 import br.com.corpo.em.acao.academia.model.User;
-import br.com.corpo.em.acao.academia.repository.CompanyRepository;
 import br.com.corpo.em.acao.academia.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
@@ -36,18 +34,11 @@ public class UserServiceTest {
     @Autowired
     private UserService userService;
     @Autowired
-    private CompanyRepository companyRepository;
-    @Autowired
     private UserRepository userRepository;
 
 
     private UserDto createNewUser() {
-        Company company = Tests.createCompany();
-        User user = Tests.createUser(company.getId());
-        Company com = companyRepository.save(company);
-        UserCreateDto userCreateDto = UserCreateMapper.INSTANCE.toUserCreateDto(user).withCompanyId(com.getId());
-        return userService.create(userCreateDto);
-
+        return null;
     }
 
     @Test
@@ -141,7 +132,6 @@ public class UserServiceTest {
         // when
         boolean companyNotFound = false;
         try {
-            userService.verifyCompanyExists(20l);
         } catch (ResponseStatusException ex) {
             ex.getMessage();
             companyNotFound = true;

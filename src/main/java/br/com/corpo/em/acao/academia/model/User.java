@@ -52,9 +52,4 @@ public class User {
     @Column(name = "company_id", nullable = false)
     private Long companyId;
 
-    @PodamExclude
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id", insertable = false, updatable = false)
-    private Company company;
-
 }
