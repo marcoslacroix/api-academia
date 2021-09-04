@@ -23,8 +23,7 @@ public class PhoneController {
     @PostMapping
     @ApiOperation(value = "Create address to a student")
     public ResponseEntity<?> create(@RequestBody @Valid PhoneCreateDto phoneCreateDto) {
-        phoneService.create(phoneCreateDto);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(phoneService.create(phoneCreateDto));
     }
 
     @DeleteMapping("/{id}")

@@ -5,6 +5,7 @@ import br.com.corpo.em.acao.academia.dto.enrollment.create.EnrollmentCreateDto;
 import br.com.corpo.em.acao.academia.dto.enrollment.update.EnrollmentUpdateDto;
 import br.com.corpo.em.acao.academia.dto.phone.PhoneDto;
 import br.com.corpo.em.acao.academia.service.EnrollmentService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,8 +25,7 @@ public class EnrollmentController {
     @PostMapping
     @ApiOperation(value = "Create enrollment for a student")
     public ResponseEntity<?> create(@RequestBody @Valid EnrollmentCreateDto enrollmentCreateDto) {
-        enrollmentService.create(enrollmentCreateDto);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(enrollmentService.create(enrollmentCreateDto));
     }
 
     @DeleteMapping("/{id}")
@@ -39,6 +39,13 @@ public class EnrollmentController {
     @ApiOperation(value = "Update enrollment")
     public ResponseEntity<EnrollmentDto> update(@RequestBody @Valid EnrollmentUpdateDto enrollmentUpdateDto) {
         return ResponseEntity.ok(enrollmentService.update(enrollmentUpdateDto));
+    }
+
+    @PostMapping(value = "/lock")
+    @ApiOperation(value = "Trancar a matricula", response = void.class)
+    public ResponseEntity<Void> lock(@RequestBody @Valid EnrollmentUpdateDto enrollmentUpdateDto) {
+        enrollmentService.lock(enrollmentUpdateDto);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/students/{id}")

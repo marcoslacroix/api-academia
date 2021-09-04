@@ -8,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -24,10 +25,10 @@ public class Enrollment {
     private Long id;
 
     @Column(name = "start")
-    private LocalDateTime start;
+    private LocalDate start;
 
     @Column(name = "end")
-    private LocalDateTime end;
+    private LocalDate end;
 
     @Column(name = "price")
     private BigDecimal price;
