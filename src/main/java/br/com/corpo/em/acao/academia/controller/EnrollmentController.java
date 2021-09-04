@@ -48,6 +48,13 @@ public class EnrollmentController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping(value = "/unlock")
+    @ApiOperation(value = "Destrancar a matricula", response = void.class)
+    public ResponseEntity<Void> unlock(@RequestBody @Valid EnrollmentUpdateDto enrollmentUpdateDto) {
+        enrollmentService.unlock(enrollmentUpdateDto);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/students/{id}")
     @ApiOperation(value = "Find all enrollment by student id", response = PhoneDto.class)
     public ResponseEntity<Page<EnrollmentDto>> findPhoneByStudentId(@PathVariable Long id, Pageable pageable) {
