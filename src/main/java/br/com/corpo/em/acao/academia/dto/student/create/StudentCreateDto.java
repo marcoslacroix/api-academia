@@ -1,11 +1,14 @@
 package br.com.corpo.em.acao.academia.dto.student.create;
 
+import br.com.corpo.em.acao.academia.dto.address.create.AddressCreateDto;
+import br.com.corpo.em.acao.academia.dto.phone.create.PhoneCreateDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Value
 @With
@@ -36,4 +39,10 @@ public class StudentCreateDto {
 
     @ApiModelProperty(name = "Objetivo", example = "Perda de peso")
     String objective;
+
+    @ApiModelProperty(name = "Endereços do estudante")
+    List<AddressCreateDto> address;
+
+    @ApiModelProperty(name = "Telefone do estudante")
+    List<PhoneCreateDto> phones;
 }

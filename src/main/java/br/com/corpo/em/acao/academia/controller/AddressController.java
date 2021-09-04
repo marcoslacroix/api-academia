@@ -1,15 +1,18 @@
 package br.com.corpo.em.acao.academia.controller;
 
 import br.com.corpo.em.acao.academia.dto.address.AddressDto;
-import br.com.corpo.em.acao.academia.dto.student.create.AddressCreateDto;
+import br.com.corpo.em.acao.academia.dto.address.create.AddressCreateDto;
+import br.com.corpo.em.acao.academia.dto.address.update.AddressUpdateDto;
+import br.com.corpo.em.acao.academia.dto.phone.PhoneDto;
 import br.com.corpo.em.acao.academia.service.AddressService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,21 +23,27 @@ public class AddressController {
 
     @PostMapping
     @ApiOperation(value = "Create address to a student")
-    public ResponseEntity<?> createAddress(@RequestBody @Valid AddressCreateDto addressCreateDto) {
-        addressService.createAddress(addressCreateDto);
+    public ResponseEntity<?> create(@RequestBody @Valid AddressCreateDto addressCreateDto) {
+        addressService.create(addressCreateDto);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    @ApiOperation(value = "Delete student", response = void.class)
+    @ApiOperation(value = "Delete address", response = void.class)
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         addressService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping
+    @ApiOperation(value = "Update address")
+    public ResponseEntity<AddressDto> update(@RequestBody @Valid AddressUpdateDto addressUpdateDto) {
+        return ResponseEntity.ok(addressService.update(addressUpdateDto));
+    }
+
     @GetMapping("/students/{id}")
-    @ApiOperation(value = "Find all address by student id", response = AddressDto.class)
-    public ResponseEntity<List<AddressDto>> findAddresByStudentId(@PathVariable Long id) {
-        return ResponseEntity.ok(addressService.findByStudentId(id));
+    @ApiOperation(value = "Find all phones by student id", response = PhoneDto.class)
+    public ResponseEntity<Page<AddressDto>> findPhoneByStudentId(@PathVariable Long id, Pageable pageable) {
+        return ResponseEntity.ok(addressService.findByStudentId(id, pageable));
     }
 }

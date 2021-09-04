@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -69,4 +70,16 @@ public class Student {
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private List<Enrollment> enrollments;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return deleted == student.deleted && Objects.equals(id, student.id) && Objects.equals(name, student.name) && Objects.equals(cpf, student.cpf) && Objects.equals(email, student.email) && Objects.equals(birth, student.birth) && Objects.equals(gender, student.gender) && Objects.equals(occupation, student.occupation) && Objects.equals(objective, student.objective) && Objects.equals(createdOn, student.createdOn) && Objects.equals(updatedOn, student.updatedOn) && Objects.equals(address, student.address) && Objects.equals(phones, student.phones) && Objects.equals(frequencies, student.frequencies) && Objects.equals(enrollments, student.enrollments);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, cpf, email, birth, gender, occupation, objective, createdOn, updatedOn, deleted, address, phones, frequencies, enrollments);
+    }
 }

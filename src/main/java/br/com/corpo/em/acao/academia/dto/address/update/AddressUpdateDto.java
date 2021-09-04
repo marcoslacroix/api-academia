@@ -1,10 +1,8 @@
-package br.com.corpo.em.acao.academia.dto.student.create;
+package br.com.corpo.em.acao.academia.dto.address.update;
 
-import br.com.corpo.em.acao.academia.model.Student;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
-
 
 @Value
 @With
@@ -12,7 +10,10 @@ import lombok.extern.jackson.Jacksonized;
 @Getter
 @Jacksonized
 @Builder
-public class AddressCreateDto {
+public class AddressUpdateDto {
+
+    @ApiModelProperty(name = "ID", example = "20")
+    Long id;
 
     @ApiModelProperty(name = "Bairro", example = "Praia Brava")
     String district;
@@ -20,13 +21,9 @@ public class AddressCreateDto {
     @ApiModelProperty(name = "Cidade", example = "Florianópolis")
     String city;
 
-    @ApiModelProperty(name = "Id do estudante", example = "3")
-    Long studentId;
-
     @ApiModelProperty(name = "Logradouro endereço", example = "Av. tom traugott wildi")
     String publicPlace;
 
     @ApiModelProperty(name = "CEP", example = "88056-800")
     String postalCode;
-
 }

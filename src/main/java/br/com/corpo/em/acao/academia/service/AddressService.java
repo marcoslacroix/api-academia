@@ -1,20 +1,20 @@
 package br.com.corpo.em.acao.academia.service;
 
 import br.com.corpo.em.acao.academia.dto.address.AddressDto;
-import br.com.corpo.em.acao.academia.dto.student.create.AddressCreateDto;
+import br.com.corpo.em.acao.academia.dto.address.create.AddressCreateDto;
+import br.com.corpo.em.acao.academia.dto.address.update.AddressUpdateDto;
 import br.com.corpo.em.acao.academia.mapper.address.AddressCreateMapper;
 import br.com.corpo.em.acao.academia.mapper.address.AddressMapper;
 import br.com.corpo.em.acao.academia.model.Address;
 import br.com.corpo.em.acao.academia.repository.AddressRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
@@ -26,9 +26,10 @@ public class AddressService {
     private final StudentService studentService;
 
     @Transactional
-    public void createAddress(AddressCreateDto addressCreateDto) {
+    public void create(AddressCreateDto addressCreateDto) {
         studentService.verifyStudentExists(addressCreateDto.getStudentId());
-        Address address = AddressCreateMapper.INSTANCE.toAddress(addressCreateDto);
+        verifyCepIsValid(addressCreateDto.getPostalCode());
+        Address address = AddressCreateMapper.INSTANCE.toAddress(addressCreateDto, addressCreateDto.getStudentId());
         addressRepository.save(address);
     }
 
@@ -47,11 +48,37 @@ public class AddressService {
         return address;
     }
 
-    public List<AddressDto> findByStudentId(Long studentId) {
-        List<Address> addresses = addressRepository.findByStudentIdAndDeletedFalse(studentId);
-        List<AddressDto> addressDtos = addresses.stream()
-                .map(AddressMapper.INSTANCE::toDto)
-                .collect(Collectors.toList());
-        return addressDtos;
+    public Page<AddressDto> findByStudentId(Long studentId, Pageable pageable) {
+        Page<Address> addresses = addressRepository.findByStudentIdAndDeletedFalse(studentId, pageable);
+        Page<AddressDto> dtos = addresses.map(AddressMapper.INSTANCE::toDto);
+        return dtos;
+    }
+
+    static String removeMask(String cnpj) {
+        if (cnpj != null && cnpj.length() > 0) {
+            return cnpj.replace(".", "").replace("/", "").replace("-", "");
+        } else {
+            return cnpj;
+        }
+    }
+
+    @Transactional
+    public AddressDto update(AddressUpdateDto addressUpdateDto) {
+        Address address = verifyAddressExists(addressUpdateDto.getId());
+        verifyCepIsValid(addressUpdateDto.getPostalCode());
+        address.setCity(addressUpdateDto.getCity());
+        address.setDistrict(addressUpdateDto.getDistrict());
+        address.setPostalCode(removeMask(addressUpdateDto.getPostalCode()));
+        address.setPublicPlace(addressUpdateDto.getPublicPlace());
+        addressRepository.save(address);
+
+        return AddressMapper.INSTANCE.toDto(address);
+    }
+
+    private void verifyCepIsValid(String postalCode) {
+        postalCode = removeMask(postalCode);
+        if (postalCode.length() != 8) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CEP inválido");
+        }
     }
 }

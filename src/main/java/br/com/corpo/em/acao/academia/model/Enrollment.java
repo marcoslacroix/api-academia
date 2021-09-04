@@ -36,23 +36,11 @@ public class Enrollment {
     @Builder.Default
     private boolean enrollmentLocked = false;
 
-    @Column(name = "start_locked")
-    private LocalDateTime startLocked;
-
-    @Column(name = "end_locked")
-    private LocalDateTime endLocked;
-
-    @Column(name = "days_locked")
-    private Integer daysLocked;
-
-    @Column(name = "start_return")
-    private LocalDateTime startReturn;
-
-    @Column(name = "end_return")
-    private LocalDateTime endReturn;
-
     @Column(name = "description")
     private String description;
+
+    @Column(name = "deleted")
+    private boolean deleted;
 
     @Column(name = "student_id")
     private Long studentId;

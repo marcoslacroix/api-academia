@@ -1,11 +1,13 @@
 package br.com.corpo.em.acao.academia.dto.student.update;
 
+import br.com.corpo.em.acao.academia.dto.address.update.AddressUpdateDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Value
 @With
@@ -39,6 +41,8 @@ public class StudentUpdateDto {
 
     @ApiModelProperty(name = "Objetivo", example = "Ganha de massa muscular")
     String objective;
+
+    List<AddressUpdateDto> address;
 
 
 }

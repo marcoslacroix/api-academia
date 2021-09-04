@@ -18,11 +18,9 @@ public class AddressDto {
 
     String city;
 
-    Long studentId;
-
     String publicPlace;
 
-    String postCode;
+    String postalCode;
 
     boolean deleted;
 }
