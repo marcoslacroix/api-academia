@@ -43,6 +43,9 @@ public class Enrollment {
     @Column(name = "deleted")
     private boolean deleted;
 
+    @Column(name = "days_locked")
+    private Long daysLocked;
+
     @Column(name = "student_id")
     private Long studentId;
 

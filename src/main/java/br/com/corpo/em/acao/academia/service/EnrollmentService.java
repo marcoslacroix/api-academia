@@ -15,7 +15,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Service
 @RequiredArgsConstructor
@@ -68,7 +73,19 @@ public class EnrollmentService {
     public void lock(EnrollmentUpdateDto enrollmentUpdateDto) {
         Enrollment enrollment = verifyEnrollmentExists(enrollmentUpdateDto.getId());
         enrollment.setEnrollmentLocked(true);
+        enrollment.setDaysLocked(ChronoUnit.DAYS.between(LocalDate.now(), enrollment.getEnd()));
         enrollment.setDescription(enrollmentUpdateDto.getDescription());
+        enrollmentRepository.save(enrollment);
+    }
+
+    @Transactional
+    public void unlock(EnrollmentUpdateDto enrollmentUpdateDto) {
+        Enrollment enrollment = verifyEnrollmentExists(enrollmentUpdateDto.getId());
+        enrollment.setEnrollmentLocked(false);
+        if (nonNull(enrollment.getDaysLocked())) {
+            enrollment.setEnd(LocalDate.now().plusDays(enrollment.getDaysLocked()));
+        }
+        enrollment.setDaysLocked(0L);
         enrollmentRepository.save(enrollment);
     }
 }
