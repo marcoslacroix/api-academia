@@ -1,6 +1,8 @@
 package br.com.corpo.em.acao.academia.mapper.student;
 
+import br.com.corpo.em.acao.academia.dto.address.AddressDto;
 import br.com.corpo.em.acao.academia.dto.student.create.StudentCreateDto;
+import br.com.corpo.em.acao.academia.model.Address;
 import br.com.corpo.em.acao.academia.model.Student;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -29,5 +31,4 @@ public interface StudentCreateMapper {
             @Mapping(target = "createdOn", expression = "java(LocalDateTime.now())"),
             @Mapping(target = "cpf", source = "studentDto.cpf", qualifiedByName = "removeMask")
     })
-    Student toStudent(StudentCreateDto studentDto);
-}
+    Student toStudent(StudentCreateDto studentDto);}

@@ -1,6 +1,6 @@
 package br.com.corpo.em.acao.academia.mapper.address;
 
-import br.com.corpo.em.acao.academia.dto.student.create.AddressCreateDto;
+import br.com.corpo.em.acao.academia.dto.address.create.AddressCreateDto;
 import br.com.corpo.em.acao.academia.model.Address;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,9 +18,10 @@ public interface AddressCreateMapper {
 
 
     @Mappings({
-            @Mapping(target = "postalCode", source = "addressCreateDto.postalCode", qualifiedByName = "removeMask")
+            @Mapping(target = "postalCode", source = "addressCreateDto.postalCode", qualifiedByName = "removeMask"),
+            @Mapping(target = "studentId", source = "studentId")
     })
-    Address toAddress(AddressCreateDto addressCreateDto);
+    Address toAddress(AddressCreateDto addressCreateDto, Long studentId);
 
     @Named("removeMask")
     static String removeMask(String cnpj) {
@@ -29,6 +30,5 @@ public interface AddressCreateMapper {
         } else {
             return cnpj;
         }
-
     }
 }

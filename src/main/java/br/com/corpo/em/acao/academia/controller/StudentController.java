@@ -26,7 +26,7 @@ public class StudentController {
         return ResponseEntity.ok(studentService.create(studentCreateDto));
     }
 
-    @PutMapping("/update")
+    @PutMapping
     @ApiOperation(value = "Update student", response = StudentDto.class)
     public ResponseEntity<StudentDto> update(@RequestBody @Valid StudentUpdateDto studentUpdateDto) {
         return ResponseEntity.ok(studentService.update(studentUpdateDto));

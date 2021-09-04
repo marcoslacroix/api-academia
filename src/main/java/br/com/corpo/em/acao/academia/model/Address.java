@@ -1,6 +1,7 @@
 package br.com.corpo.em.acao.academia.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -36,7 +37,8 @@ public class Address {
     private String postalCode;
 
     @Column(name = "deleted")
-    private boolean deleted;
+    @Builder.Default
+    private boolean deleted = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", insertable = false, updatable = false)

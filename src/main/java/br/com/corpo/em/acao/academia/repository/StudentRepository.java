@@ -9,4 +9,6 @@ import org.springframework.data.repository.query.Param;
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
     Student findByDeletedFalseAndCpf(String cpf);
+
+    Student findByEmailAndDeletedFalse(String email);
 }
