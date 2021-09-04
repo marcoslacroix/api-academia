@@ -25,10 +25,11 @@ public class EnrollmentService {
     private final EnrollmentRepository enrollmentRepository;
 
     @Transactional
-    public void create(EnrollmentCreateDto enrollmentCreateDto) {
+    public EnrollmentDto create(EnrollmentCreateDto enrollmentCreateDto) {
         studentService.verifyStudentExists(enrollmentCreateDto.getStudentId());
         Enrollment enrollment = EnrollmentCreateMapper.INSTANCE.toEnrollment(enrollmentCreateDto);
         enrollmentRepository.save(enrollment);
+        return EnrollmentMapper.INSTANCE.toDto(enrollment);
     }
 
     @Transactional
@@ -61,5 +62,13 @@ public class EnrollmentService {
         Page<Enrollment> enrollments = enrollmentRepository.findByStudentIdAndDeletedFalse(id, pageable);
         Page<EnrollmentDto> dtos = enrollments.map(EnrollmentMapper.INSTANCE::toDto);
         return dtos;
+    }
+
+    @Transactional
+    public void lock(EnrollmentUpdateDto enrollmentUpdateDto) {
+        Enrollment enrollment = verifyEnrollmentExists(enrollmentUpdateDto.getId());
+        enrollment.setEnrollmentLocked(true);
+        enrollment.setDescription(enrollmentUpdateDto.getDescription());
+        enrollmentRepository.save(enrollment);
     }
 }

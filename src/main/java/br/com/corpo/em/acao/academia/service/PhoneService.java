@@ -27,10 +27,11 @@ public class PhoneService {
     private final StudentService studentService;
 
     @Transactional
-    public void create(PhoneCreateDto phoneCreateDto) {
+    public PhoneDto create(PhoneCreateDto phoneCreateDto) {
         studentService.verifyStudentExists(phoneCreateDto.getStudentId());
         Phone phone = PhoneCreateMapper.INSTANCE.toPhone(phoneCreateDto, phoneCreateDto.getStudentId());
         phoneRepository.save(phone);
+        return PhoneMapper.INSTANCE.toDto(phone);
     }
 
     @Transactional

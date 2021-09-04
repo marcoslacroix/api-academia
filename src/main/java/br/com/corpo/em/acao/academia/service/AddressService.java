@@ -26,11 +26,13 @@ public class AddressService {
     private final StudentService studentService;
 
     @Transactional
-    public void create(AddressCreateDto addressCreateDto) {
+    public AddressDto create(AddressCreateDto addressCreateDto) {
         studentService.verifyStudentExists(addressCreateDto.getStudentId());
         verifyCepIsValid(addressCreateDto.getPostalCode());
         Address address = AddressCreateMapper.INSTANCE.toAddress(addressCreateDto, addressCreateDto.getStudentId());
         addressRepository.save(address);
+
+        return AddressMapper.INSTANCE.toDto(address);
     }
 
     @Transactional
