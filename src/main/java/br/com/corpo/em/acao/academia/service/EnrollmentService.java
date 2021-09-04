@@ -30,7 +30,7 @@ public class EnrollmentService {
 
     @Transactional
     public EnrollmentDto create(EnrollmentCreateDto enrollmentCreateDto) {
-        studentService.verifyStudentExists(enrollmentCreateDto.getStudentId());
+        studentService.findById(enrollmentCreateDto.getStudentId());
         Enrollment enrollment = EnrollmentCreateMapper.INSTANCE.toEnrollment(enrollmentCreateDto);
         enrollmentRepository.save(enrollment);
         return EnrollmentMapper.INSTANCE.toDto(enrollment);

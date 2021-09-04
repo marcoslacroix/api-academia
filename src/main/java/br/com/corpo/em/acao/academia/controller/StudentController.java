@@ -1,9 +1,14 @@
 package br.com.corpo.em.acao.academia.controller;
 
+import br.com.corpo.em.acao.academia.dto.PagedResult;
 import br.com.corpo.em.acao.academia.dto.student.StudentDto;
 import br.com.corpo.em.acao.academia.dto.student.create.StudentCreateDto;
+import br.com.corpo.em.acao.academia.dto.student.filter.StudentFilter;
 import br.com.corpo.em.acao.academia.dto.student.update.StudentUpdateDto;
+import br.com.corpo.em.acao.academia.mapper.student.StudentMapper;
 import br.com.corpo.em.acao.academia.service.StudentService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -39,9 +44,25 @@ public class StudentController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
-    @ApiOperation(value = "Get all students", response = StudentDto.class)
-    public ResponseEntity<Page<StudentDto>> findAll(Pageable pageable) {
-        return ResponseEntity.ok(studentService.findAll(pageable));
+    @GetMapping("/{id}")
+    @ApiOperation(value = "Find student by id")
+    public ResponseEntity<StudentDto> findStudent(@PathVariable Long id) {
+        return ResponseEntity.ok(
+                StudentMapper.INSTANCE.toStudentDto(studentService.findById(id))
+        );
+    }
+
+    @GetMapping("/findStudents")
+    @ApiOperation(value = "Find students", response = StudentDto.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", example = "1", defaultValue = "1", required = true),
+            @ApiImplicitParam(name = "size", example = "25", defaultValue = "25", required = true)
+    })
+    public ResponseEntity<PagedResult<StudentDto>> findAll(@RequestBody StudentFilter studentFilter,
+                                                            Pageable pageable) {
+        var students = studentService.findByFilter(studentFilter, pageable)
+                .map(StudentMapper.INSTANCE::toStudentDto);
+        var studentsPage = new PagedResult<>(students);
+        return ResponseEntity.ok(studentsPage);
     }
 }

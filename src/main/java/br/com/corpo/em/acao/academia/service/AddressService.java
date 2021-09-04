@@ -27,7 +27,7 @@ public class AddressService {
 
     @Transactional
     public AddressDto create(AddressCreateDto addressCreateDto) {
-        studentService.verifyStudentExists(addressCreateDto.getStudentId());
+        studentService.findById(addressCreateDto.getStudentId());
         verifyCepIsValid(addressCreateDto.getPostalCode());
         Address address = AddressCreateMapper.INSTANCE.toAddress(addressCreateDto, addressCreateDto.getStudentId());
         addressRepository.save(address);
