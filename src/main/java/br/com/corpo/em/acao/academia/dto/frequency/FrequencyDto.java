@@ -1,11 +1,10 @@
-package br.com.corpo.em.acao.academia.dto.enrollment;
+package br.com.corpo.em.acao.academia.dto.frequency;
 
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Value
 @With
@@ -13,21 +12,17 @@ import java.time.LocalDate;
 @Getter
 @Jacksonized
 @Builder
-public class EnrollmentDto {
+public class FrequencyDto {
 
     Long id;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    LocalDate start;
+    LocalDateTime start;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    LocalDate end;
-
-    BigDecimal price;
-
-    boolean enrollmentLocked = false;
-
-    String description;
+    LocalDateTime end;
 
     Long studentId;
+
+    String note;
 }

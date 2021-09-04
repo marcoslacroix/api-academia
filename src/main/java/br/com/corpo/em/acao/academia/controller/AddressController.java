@@ -42,7 +42,7 @@ public class AddressController {
     }
 
     @GetMapping("/students/{id}")
-    @ApiOperation(value = "Find all phones by student id", response = PhoneDto.class)
+    @ApiOperation(value = "Find all address by student id", response = PhoneDto.class)
     public ResponseEntity<Page<AddressDto>> findPhoneByStudentId(@PathVariable Long id, Pageable pageable) {
         return ResponseEntity.ok(addressService.findByStudentId(id, pageable));
     }

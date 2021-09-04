@@ -1,6 +1,7 @@
 package br.com.corpo.em.acao.academia.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Cleanup;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -32,6 +33,9 @@ public class Frequency {
 
     @Column(name = "note")
     private String note;
+
+    @Column(name = "deleted")
+    private boolean deleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", updatable = false, insertable = false)
