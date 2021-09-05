@@ -14,7 +14,7 @@
     <name>academia</name>
     <description>Projeto academia</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>8</java.version>
         <audit.version>1.4.0</audit.version>
         <authentic.version>1.4.3</authentic.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
