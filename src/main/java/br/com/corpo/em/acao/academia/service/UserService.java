@@ -15,8 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -32,12 +30,19 @@ public class UserService {
     public UserDto create(UserCreateDto userCreateDto) {
         verifyUserLoginExists(userCreateDto.getUsername());
         verifyEmailExists(userCreateDto.getEmail());
+        verifyLengthPassword(userCreateDto.getPassword());
 
         User user = UserCreateMapper.INSTANCE.toUser(userCreateDto);
         user.setPassword(encoder.encode(userCreateDto.getPassword()));
         userRepository.save(user);
 
         return UserMapper.INSTANCE.toDto(user);
+    }
+
+    private void verifyLengthPassword(String password) {
+        if (password.length() < 8) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Senha deve conter no mínimo 8 caracteres.");
+        }
     }
 
     private void verifyEmailExists(String email) {
@@ -65,7 +70,6 @@ public class UserService {
     @Transactional
     public UserDto update(UserUpdateDto userUpdateDto) {
         User user = findById(userUpdateDto.getId());
-
         user.setName(userUpdateDto.getName());
         user.setEmail(userUpdateDto.getEmail());
         userRepository.save(user);
@@ -76,15 +80,16 @@ public class UserService {
     @Transactional(rollbackFor = Exception.class)
     public void changePassword(String newPassword, String newPassword2, String oldPassword, Long id) {
         User user = findById(id);
+        verifyLengthPassword(newPassword);
         if (newPassword.equals(newPassword2)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "The new password do not match");
+                    "Senha mesma que a antiga.");
         } else if (encoder.matches(oldPassword, user.getPassword())) {
             user.setPassword(encoder.encode(newPassword));
             user.setUpdatedOn(LocalDateTime.now());
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "The current password is incorrect.");
+                    "Suas senhas não são iguais.");
         }
         userRepository.save(user);
     }
