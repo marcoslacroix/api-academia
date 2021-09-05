@@ -8,6 +8,7 @@ import br.com.corpo.em.acao.academia.mapper.user.UserCreateMapper;
 import br.com.corpo.em.acao.academia.model.User;
 import br.com.corpo.em.acao.academia.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import lombok.var;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
