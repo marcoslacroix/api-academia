@@ -1,12 +1,10 @@
 package br.com.corpo.em.acao.academia.service;
 
-import br.com.corpo.em.acao.academia.dto.address.AddressDto;
 import br.com.corpo.em.acao.academia.dto.phone.PhoneDto;
 import br.com.corpo.em.acao.academia.dto.phone.create.PhoneCreateDto;
 import br.com.corpo.em.acao.academia.dto.phone.update.PhoneUpdateDto;
 import br.com.corpo.em.acao.academia.mapper.phone.PhoneCreateMapper;
 import br.com.corpo.em.acao.academia.mapper.phone.PhoneMapper;
-import br.com.corpo.em.acao.academia.mapper.phone.PhoneUpdateMapper;
 import br.com.corpo.em.acao.academia.model.Phone;
 import br.com.corpo.em.acao.academia.repository.PhoneRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +26,7 @@ public class PhoneService {
 
     @Transactional
     public PhoneDto create(PhoneCreateDto phoneCreateDto) {
-        studentService.verifyStudentExists(phoneCreateDto.getStudentId());
+        studentService.findById(phoneCreateDto.getStudentId());
         Phone phone = PhoneCreateMapper.INSTANCE.toPhone(phoneCreateDto, phoneCreateDto.getStudentId());
         phoneRepository.save(phone);
         return PhoneMapper.INSTANCE.toDto(phone);

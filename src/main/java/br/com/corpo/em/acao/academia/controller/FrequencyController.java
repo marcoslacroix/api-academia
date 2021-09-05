@@ -3,14 +3,9 @@ package br.com.corpo.em.acao.academia.controller;
 import br.com.corpo.em.acao.academia.dto.frequency.FrequencyDto;
 import br.com.corpo.em.acao.academia.dto.frequency.create.FrequencyCreateDto;
 import br.com.corpo.em.acao.academia.dto.frequency.update.FrequencyUpdateDto;
-import br.com.corpo.em.acao.academia.dto.phone.PhoneDto;
-import br.com.corpo.em.acao.academia.dto.phone.create.PhoneCreateDto;
-import br.com.corpo.em.acao.academia.dto.phone.update.PhoneUpdateDto;
 import br.com.corpo.em.acao.academia.service.FrequencyService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,9 +37,4 @@ public class FrequencyController {
         return ResponseEntity.ok(frequencyService.update(frequencyUpdateDto));
     }
 
-    @GetMapping("/students/{id}")
-    @ApiOperation(value = "Find all frequency by student id", response = PhoneDto.class)
-    public ResponseEntity<Page<FrequencyDto>> findFrequenciesByStudentId(@PathVariable Long id, Pageable pageable) {
-        return ResponseEntity.ok(frequencyService.findByStudentId(id, pageable));
-    }
 }

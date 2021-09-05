@@ -2,6 +2,8 @@ package br.com.corpo.em.acao.academia.service;
 
 import br.com.corpo.em.acao.academia.dto.student.StudentDto;
 import br.com.corpo.em.acao.academia.dto.student.create.StudentCreateDto;
+import br.com.corpo.em.acao.academia.dto.student.filter.StudentFilter;
+import br.com.corpo.em.acao.academia.dto.student.filter.StudentFilterOrderProperty;
 import br.com.corpo.em.acao.academia.dto.student.update.StudentUpdateDto;
 import br.com.corpo.em.acao.academia.mapper.address.AddressCreateMapper;
 import br.com.corpo.em.acao.academia.mapper.phone.PhoneCreateMapper;
@@ -13,8 +15,10 @@ import br.com.corpo.em.acao.academia.model.Student;
 import br.com.corpo.em.acao.academia.repository.AddressRepository;
 import br.com.corpo.em.acao.academia.repository.PhoneRepository;
 import br.com.corpo.em.acao.academia.repository.StudentRepository;
+import br.com.corpo.em.acao.academia.repository.specification.StudentSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,10 +28,12 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static java.util.Optional.ofNullable;
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @Service
 @RequiredArgsConstructor
@@ -95,7 +101,7 @@ public class StudentService {
     @Transactional
     public StudentDto update(StudentUpdateDto studentUpdateDto) {
         verifyCpfIsValid(studentUpdateDto.getCpf());
-        Student student = verifyStudentExists(studentUpdateDto.getId());
+        Student student = findById(studentUpdateDto.getId());
         verifyEmailIsAlreadyResgistered(studentUpdateDto.getEmail(), student);
         student.setName(studentUpdateDto.getName());
         student.setCpf(removeMask(studentUpdateDto.getCpf()));
@@ -119,19 +125,29 @@ public class StudentService {
 
     @Transactional
     public void delete(Long id) {
-        Student student = verifyStudentExists(id);
+        Student student = findById(id);
         student.setUpdatedOn(LocalDateTime.now());
         student.setDeleted(true);
         studentRepository.save(student);
     }
 
-    public Page<StudentDto> findAll(Pageable pageable) {
-        Page<Student> student = studentRepository.findAll(pageable);
-        Page<StudentDto> dtos = student.map(StudentMapper.INSTANCE::toStudentDto);
-        return dtos;
+    @Transactional(readOnly = true)
+    public Page<Student> findByFilter(StudentFilter studentFilter, Pageable pageable) {
+        return studentRepository.findAll(
+                StudentSpecification.byFilter(studentFilter),
+                PageRequest.of(
+                        pageable.getPageNumber(),
+                        pageable.getPageSize(),
+                        ofNullable(studentFilter.getOrderDirection()).orElse(DESC),
+                        ofNullable(studentFilter.getOrderBy()).orElse(StudentFilterOrderProperty.NAME).getPropertyName()
+                )
+        );
+//        Page<Student> student = studentRepository.findAll(pageable);
+//        Page<StudentDto> dtos = student.map(StudentMapper.INSTANCE::toStudentDto);
+//        return dtos;
     }
 
-    public Student verifyStudentExists(Long id) {
+    public Student findById(Long id) {
         Student student = studentRepository.findById(id).orElse(null);
         if (isNull(student)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Aluno não encontrado.");
