@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,7 +58,7 @@ public class StudentController {
             @ApiImplicitParam(name = "size", example = "25", defaultValue = "25", required = true)
     })
     public ResponseEntity<PagedResult<StudentDto>> findAll(@RequestBody StudentFilter studentFilter,
-                                                            Pageable pageable) {
+                                                           Pageable pageable) {
         var students = studentService.findByFilter(studentFilter, pageable)
                 .map(StudentMapper.INSTANCE::toStudentDto);
         var studentsPage = new PagedResult<>(students);

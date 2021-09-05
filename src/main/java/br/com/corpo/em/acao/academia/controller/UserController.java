@@ -41,9 +41,9 @@ public class UserController {
     @PutMapping("/updatePassword")
     @ApiOperation(value = "Update password user", response = void.class)
     public ResponseEntity<Void> updatePassword(@RequestParam @NotBlank String newPassword,
-                                                @RequestParam @NotBlank String newPassword2,
-                                                @RequestParam @NotBlank String oldPassword,
-                                                @RequestParam @NotBlank Long id) {
+                                               @RequestParam @NotBlank String newPassword2,
+                                               @RequestParam @NotBlank String oldPassword,
+                                               @RequestParam @NotBlank Long id) {
         userService.changePassword(newPassword, newPassword2, oldPassword, id);
         return ResponseEntity.noContent().build();
     }

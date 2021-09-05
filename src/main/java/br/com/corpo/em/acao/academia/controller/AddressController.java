@@ -25,7 +25,7 @@ public class AddressController {
     @ApiOperation(value = "Create address to a student")
     public ResponseEntity<?> create(@RequestBody @Valid AddressCreateDto addressCreateDto) {
 
-        return ResponseEntity.ok( addressService.create(addressCreateDto));
+        return ResponseEntity.ok(addressService.create(addressCreateDto));
     }
 
     @DeleteMapping("/{id}")

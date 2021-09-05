@@ -50,7 +50,7 @@ public class UserService {
     public void verifyUserLoginExists(String userLogin) {
         User user = userRepository.getUserByUsername(userLogin);
         if (nonNull(user)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST ,"Usuário já cadastrado");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário já cadastrado");
         }
     }
 
