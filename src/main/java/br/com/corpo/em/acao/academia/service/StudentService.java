@@ -46,7 +46,6 @@ public class StudentService {
     public StudentDto create(StudentCreateDto studentCreateDto) {
         verifyCpfAlreadyRegistered(studentCreateDto.getCpf());
         verifyCpfIsValid(studentCreateDto.getCpf());
-        verifyEmailIsAlreadyResgistered(studentCreateDto.getEmail(), null);
         Student student = StudentCreateMapper.INSTANCE.toStudent(studentCreateDto);
         studentRepository.save(student);
 
@@ -65,12 +64,6 @@ public class StudentService {
         }
     }
 
-    private void verifyEmailIsAlreadyResgistered(String email, Student studentUpdate) {
-        Student student = studentRepository.findByEmailAndDeletedFalse(email);
-        if (nonNull(student) && !student.equals(studentUpdate)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email já cadastrado");
-        }
-    }
 
     private void createStudentAddresss(Student student, StudentCreateDto studentCreateDto) {
         List<Address> addresses = new ArrayList<>();
@@ -101,7 +94,6 @@ public class StudentService {
     public StudentDto update(StudentUpdateDto studentUpdateDto) {
         verifyCpfIsValid(studentUpdateDto.getCpf());
         Student student = findById(studentUpdateDto.getId());
-        verifyEmailIsAlreadyResgistered(studentUpdateDto.getEmail(), student);
         student.setName(studentUpdateDto.getName());
         student.setCpf(removeMask(studentUpdateDto.getCpf()));
         student.setEmail(studentUpdateDto.getEmail());
