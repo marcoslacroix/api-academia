@@ -1,6 +1,7 @@
 package br.com.corpo.em.acao.academia.controller;
 
 import br.com.corpo.em.acao.academia.dto.user.UserDto;
+import br.com.corpo.em.acao.academia.dto.user.UserPasswordRequest;
 import br.com.corpo.em.acao.academia.dto.user.create.UserCreateDto;
 import br.com.corpo.em.acao.academia.dto.user.update.UserUpdateDto;
 import br.com.corpo.em.acao.academia.service.UserService;
@@ -10,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,11 +40,12 @@ public class UserController {
 
     @PutMapping("/updatePassword")
     @ApiOperation(value = "Update password user", response = void.class)
-    public ResponseEntity<Void> updatePassword(@RequestParam @NotBlank String newPassword,
-                                               @RequestParam @NotBlank String newPassword2,
-                                               @RequestParam @NotBlank String oldPassword,
-                                               @RequestParam @NotBlank Long id) {
-        userService.changePassword(newPassword, newPassword2, oldPassword, id);
+    public ResponseEntity<Void> updatePassword(@RequestBody @Valid UserPasswordRequest userPasswordRequest){
+        userService.changePassword(userPasswordRequest.getNewPassword(),
+                userPasswordRequest.getNewPassword2(),
+                userPasswordRequest.getOldPassword(),
+                userPasswordRequest.getId()
+        );
         return ResponseEntity.noContent().build();
     }
 }
