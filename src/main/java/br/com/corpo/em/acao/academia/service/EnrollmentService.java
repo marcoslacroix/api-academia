@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -59,7 +58,6 @@ public class EnrollmentService {
         enrollment.setEnd(enrollmentUpdateDto.getEnd());
         enrollment.setPrice(enrollmentUpdateDto.getPrice());
         enrollment.setDescription(enrollmentUpdateDto.getDescription());
-
         return EnrollmentMapper.INSTANCE.toDto(enrollment);
     }
 
@@ -82,6 +80,7 @@ public class EnrollmentService {
     public void unlock(EnrollmentUpdateDto enrollmentUpdateDto) {
         Enrollment enrollment = verifyEnrollmentExists(enrollmentUpdateDto.getId());
         enrollment.setEnrollmentLocked(false);
+        enrollment.setStart(LocalDate.now());
         if (nonNull(enrollment.getDaysLocked())) {
             enrollment.setEnd(LocalDate.now().plusDays(enrollment.getDaysLocked()));
         }

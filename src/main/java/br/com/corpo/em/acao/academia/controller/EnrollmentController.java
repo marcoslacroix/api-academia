@@ -5,7 +5,6 @@ import br.com.corpo.em.acao.academia.dto.enrollment.create.EnrollmentCreateDto;
 import br.com.corpo.em.acao.academia.dto.enrollment.update.EnrollmentUpdateDto;
 import br.com.corpo.em.acao.academia.dto.phone.PhoneDto;
 import br.com.corpo.em.acao.academia.service.EnrollmentService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -42,14 +41,14 @@ public class EnrollmentController {
     }
 
     @PostMapping(value = "/lock")
-    @ApiOperation(value = "Trancar a matricula", response = void.class)
+    @ApiOperation(value = "Lock enrollment", response = void.class)
     public ResponseEntity<Void> lock(@RequestBody @Valid EnrollmentUpdateDto enrollmentUpdateDto) {
         enrollmentService.lock(enrollmentUpdateDto);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping(value = "/unlock")
-    @ApiOperation(value = "Destrancar a matricula", response = void.class)
+    @ApiOperation(value = "Unlock enrollment", response = void.class)
     public ResponseEntity<Void> unlock(@RequestBody @Valid EnrollmentUpdateDto enrollmentUpdateDto) {
         enrollmentService.unlock(enrollmentUpdateDto);
         return ResponseEntity.noContent().build();
