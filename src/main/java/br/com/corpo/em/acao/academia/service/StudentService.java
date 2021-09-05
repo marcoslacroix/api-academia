@@ -142,9 +142,6 @@ public class StudentService {
                         ofNullable(studentFilter.getOrderBy()).orElse(StudentFilterOrderProperty.NAME).getPropertyName()
                 )
         );
-//        Page<Student> student = studentRepository.findAll(pageable);
-//        Page<StudentDto> dtos = student.map(StudentMapper.INSTANCE::toStudentDto);
-//        return dtos;
     }
 
     public Student findById(Long id) {

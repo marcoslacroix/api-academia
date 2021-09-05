@@ -17,6 +17,12 @@ public class StudentFilter {
     @ApiModelProperty(value = "Nome do estudante", example = "Pedro")
     String name;
 
+    @ApiModelProperty(value = "Matriculas trancadas", example = "false")
+    Boolean enrollmentLocked;
+
+    @ApiModelProperty(value = "Situação do material (ativo/inativo/ambos)", example = "ACTIVE")
+    EnrollmentStatus status;
+
     @ApiModelProperty(value = "Atributo a ser ordenado", example = "NAME")
     StudentFilterOrderProperty orderBy;
     @ApiModelProperty(value = "Ordenação ascendente ou descendente", example = "DESC")
