@@ -31,4 +31,5 @@ public interface StudentCreateMapper {
             @Mapping(target = "createdOn", expression = "java(LocalDateTime.now())"),
             @Mapping(target = "cpf", source = "studentDto.cpf", qualifiedByName = "removeMask")
     })
-    Student toStudent(StudentCreateDto studentDto);}
+    Student toStudent(StudentCreateDto studentDto);
+}

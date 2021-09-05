@@ -25,8 +25,8 @@ public class StudentSpecification {
     public static Specification<Student> byFilter(@NonNull StudentFilter filter) {
         return generalSpecification()
                 .and(nameLike(filter.getName())
-                .and(enrollmentStatus(filter.getStatus()))
-                .and(enrollmentLocked(filter.getEnrollmentLocked())));
+                        .and(enrollmentStatus(filter.getStatus()))
+                        .and(enrollmentLocked(filter.getEnrollmentLocked())));
     }
 
     private static Specification<Student> enrollmentStatus(EnrollmentStatus status) {

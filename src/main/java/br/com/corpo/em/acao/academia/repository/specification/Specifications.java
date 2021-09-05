@@ -15,6 +15,7 @@ public class Specifications {
     public static Predicate trueExpression(CriteriaBuilder cb) {
         return cb.equal(cb.literal(1), 1);
     }
+
     public static Predicate likeExpression(@NonNull String term,
                                            @NonNull Expression<String> expression,
                                            @NonNull CriteriaBuilder cb) {

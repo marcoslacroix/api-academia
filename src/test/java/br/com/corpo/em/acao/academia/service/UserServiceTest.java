@@ -99,7 +99,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldHaveUserRegisteredWithLogin(){
+    public void shouldHaveUserRegisteredWithLogin() {
         // given
         var userDto = createNewUser();
 

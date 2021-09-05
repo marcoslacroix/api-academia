@@ -12,6 +12,7 @@ import org.mapstruct.factory.Mappers;
 public interface PhoneCreateMapper {
 
     PhoneCreateMapper INSTANCE = Mappers.getMapper(PhoneCreateMapper.class);
+
     @Mappings({
 
             @Mapping(target = "phoneNumber", source = "phoneCreateDto.phoneNumber"),
