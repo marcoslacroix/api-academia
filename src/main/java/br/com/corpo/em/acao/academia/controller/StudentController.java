@@ -6,11 +6,13 @@ import br.com.corpo.em.acao.academia.dto.student.create.StudentCreateDto;
 import br.com.corpo.em.acao.academia.dto.student.filter.StudentFilter;
 import br.com.corpo.em.acao.academia.dto.student.update.StudentUpdateDto;
 import br.com.corpo.em.acao.academia.mapper.student.StudentMapper;
+import br.com.corpo.em.acao.academia.model.Student;
 import br.com.corpo.em.acao.academia.service.StudentService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,9 +61,9 @@ public class StudentController {
     })
     public ResponseEntity<PagedResult<StudentDto>> findAll(@RequestBody StudentFilter studentFilter,
                                                            Pageable pageable) {
-        var students = studentService.findByFilter(studentFilter, pageable)
+        Page<StudentDto> students = studentService.findByFilter(studentFilter, pageable)
                 .map(StudentMapper.INSTANCE::toStudentDto);
-        var studentsPage = new PagedResult<>(students);
+        PagedResult studentsPage = new PagedResult<>(students);
         return ResponseEntity.ok(studentsPage);
     }
 }
