@@ -1,14 +1,11 @@
 package br.com.corpo.em.acao.academia.service;
 
-import br.com.corpo.em.acao.academia.Tests;
 import br.com.corpo.em.acao.academia.dto.user.UserDto;
-import br.com.corpo.em.acao.academia.dto.user.create.UserCreateDto;
 import br.com.corpo.em.acao.academia.dto.user.update.UserUpdateDto;
-import br.com.corpo.em.acao.academia.mapper.user.UserCreateMapper;
+import br.com.corpo.em.acao.academia.mapper.user.UserMapper;
 import br.com.corpo.em.acao.academia.model.User;
 import br.com.corpo.em.acao.academia.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import lombok.var;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -19,7 +16,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
+
+import java.time.LocalDateTime;
 
 import static java.util.Objects.nonNull;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -39,17 +37,24 @@ public class UserServiceTest {
 
 
     private UserDto createNewUser() {
-        return null;
+        return UserDto.builder()
+                .id(10L)
+                .name("Tester Test")
+                .login("tester")
+                .email("test@gmail.com")
+                .createdOn(LocalDateTime.now())
+                .deleted(false)
+                .build();
     }
 
     @Test
     public void souldDeleteUser() {
         // given
-        var userDto = createNewUser();
+        User user = getUser();
 
         // when
-        userService.delete(userDto.getId());
-        User user = userRepository.findById(userDto.getId()).get();
+        userService.delete(user.getId());
+        user = userRepository.findById(user.getId()).get();
 
         // then
         Assertions.assertTrue(user.isDeleted());
@@ -58,8 +63,8 @@ public class UserServiceTest {
     @Test
     public void souldNotFoundUser() {
         // given
-        var userDto = createNewUser()
-                .withId(20L);
+        User userDto = getUser();
+        userDto.setId(20L);
 
         // when
         boolean notFound = false;
@@ -76,10 +81,10 @@ public class UserServiceTest {
     @Test
     public void souldFindUser() {
         // given
-        var userDto = createNewUser();
+        var user = getUser();
 
         // when
-        User u = userService.findById(userDto.getId());
+        User u = userService.findById(user.getId());
 
         // then
         Assertions.assertTrue(nonNull(u));
@@ -102,12 +107,11 @@ public class UserServiceTest {
     @Test
     public void shouldHaveUserRegisteredWithLogin() {
         // given
-        var userDto = createNewUser();
-
+        User user = getUser();
         // when
         boolean userFound = false;
         try {
-            userService.verifyUserLoginExists(userDto.getLogin());
+            userService.verifyUserLoginExists(user.getUsername());
         } catch (ResponseStatusException ex) {
             ex.getMessage();
             userFound = true;
@@ -116,17 +120,17 @@ public class UserServiceTest {
         Assertions.assertTrue(userFound);
     }
 
-    @Test
-    public void shouldNotFoundCompany() {
-        // when
-        boolean companyNotFound = false;
-        try {
-        } catch (ResponseStatusException ex) {
-            ex.getMessage();
-            companyNotFound = true;
-        }
-        // then
-        Assertions.assertTrue(companyNotFound);
+    private User getUser() {
+        var user = User.builder()
+                .name("Tester Test")
+                .username("tester")
+                .email("test@gmail.com")
+                .createdOn(LocalDateTime.now())
+                .deleted(false)
+                .build();
+        userRepository.save(user);
+        return user;
     }
+
 
 }

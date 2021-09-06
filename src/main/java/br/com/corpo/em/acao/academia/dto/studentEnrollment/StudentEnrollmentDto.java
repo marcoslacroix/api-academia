@@ -1,4 +1,4 @@
-package br.com.corpo.em.acao.academia.dto.enrollment;
+package br.com.corpo.em.acao.academia.dto.studentEnrollment;
 
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Getter
 @Jacksonized
 @Builder
-public class EnrollmentDto {
+public class StudentEnrollmentDto {
 
     Long id;
 

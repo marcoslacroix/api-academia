@@ -2,7 +2,7 @@ package br.com.corpo.em.acao.academia.repository.specification;
 
 import br.com.corpo.em.acao.academia.dto.student.filter.EnrollmentStatus;
 import br.com.corpo.em.acao.academia.dto.student.filter.StudentFilter;
-import br.com.corpo.em.acao.academia.model.Enrollment;
+import br.com.corpo.em.acao.academia.model.StudentEnrollment;
 import br.com.corpo.em.acao.academia.model.Student;
 import lombok.NonNull;
 import org.springframework.data.jpa.domain.Specification;
@@ -31,7 +31,7 @@ public class StudentSpecification {
 
     private static Specification<Student> enrollmentStatus(EnrollmentStatus status) {
         return (root, query, cb) -> {
-            Join<Student, Enrollment> enrollment = root.join("enrollments");
+            Join<Student, StudentEnrollment> enrollment = root.join("enrollments");
             switch (nonNull(status) ? status : EnrollmentStatus.ALL) {
                 case ACTIVE:
                     return cb.greaterThanOrEqualTo(enrollment.get("end"), LocalDate.now());
@@ -50,7 +50,7 @@ public class StudentSpecification {
             if (isFalse(enrollmentLocked)) {
                 return trueExpression(cb);
             }
-            Join<Student, Enrollment> enrollment = root.join("enrollments");
+            Join<Student, StudentEnrollment> enrollment = root.join("enrollments");
 
             return cb.isTrue(enrollment.get("enrollmentLocked"));
         };

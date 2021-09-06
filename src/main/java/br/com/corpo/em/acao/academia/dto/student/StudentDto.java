@@ -1,12 +1,9 @@
 package br.com.corpo.em.acao.academia.dto.student;
 
 import br.com.corpo.em.acao.academia.dto.address.AddressDto;
-import br.com.corpo.em.acao.academia.dto.enrollment.EnrollmentDto;
-import br.com.corpo.em.acao.academia.dto.frequency.FrequencyDto;
+import br.com.corpo.em.acao.academia.dto.studentEnrollment.StudentEnrollmentDto;
+import br.com.corpo.em.acao.academia.dto.studentFrequency.StudentFrequencyDto;
 import br.com.corpo.em.acao.academia.dto.phone.PhoneDto;
-import br.com.corpo.em.acao.academia.model.Address;
-import br.com.corpo.em.acao.academia.model.Enrollment;
-import br.com.corpo.em.acao.academia.model.Frequency;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
@@ -49,7 +46,7 @@ public class StudentDto {
 
     List<PhoneDto> phones;
 
-    List<FrequencyDto> frequencies;
+    List<StudentFrequencyDto> frequencies;
 
-    List<EnrollmentDto> enrollments;
+    List<StudentEnrollmentDto> enrollments;
 }

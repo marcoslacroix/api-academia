@@ -1,4 +1,4 @@
-package br.com.corpo.em.acao.academia.dto.enrollment.update;
+package br.com.corpo.em.acao.academia.dto.studentEnrollment.update;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Getter
 @Jacksonized
 @Builder
-public class EnrollmentUpdateDto {
+public class StudentEnrollmentUpdateDto {
 
     @ApiModelProperty(name = "ID do pagamento", example = "1")
     Long id;

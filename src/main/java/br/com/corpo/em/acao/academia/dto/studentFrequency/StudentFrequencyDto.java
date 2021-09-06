@@ -1,4 +1,4 @@
-package br.com.corpo.em.acao.academia.dto.frequency;
+package br.com.corpo.em.acao.academia.dto.studentFrequency;
 
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Jacksonized
 @Builder
-public class FrequencyDto {
+public class StudentFrequencyDto {
 
     Long id;
 

@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "enrollment")
-public class Enrollment {
+@Table(name = "student_enrollment")
+public class StudentEnrollment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
