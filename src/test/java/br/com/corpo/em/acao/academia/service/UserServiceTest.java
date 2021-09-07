@@ -90,13 +90,6 @@ public class UserServiceTest {
         Assertions.assertTrue(nonNull(u));
     }
 
-    @Test
-    public void shouldUpdateUser() {
-        // given
-        UserDto userDto = userService.update(userUpdateDtoBuilder(createNewUser()).build());
-
-    }
-
     private UserUpdateDto.UserUpdateDtoBuilder userUpdateDtoBuilder(UserDto userDto) {
         return UserUpdateDto.builder()
                 .id(userDto.getId())
