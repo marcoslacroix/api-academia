@@ -64,11 +64,11 @@ public class Student {
     private List<Phone> phones;
 
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
-    private List<Frequency> frequencies;
+    private List<StudentFrequency> frequencies;
 
     @PodamExclude
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
-    private List<Enrollment> enrollments;
+    private List<StudentEnrollment> enrollments;
 
     @Override
     public boolean equals(Object o) {

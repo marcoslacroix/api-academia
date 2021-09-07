@@ -1,4 +1,4 @@
-package br.com.corpo.em.acao.academia.dto.enrollment.create;
+package br.com.corpo.em.acao.academia.dto.studentEnrollment.create;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Getter
 @Jacksonized
 @Builder
-public class EnrollmentCreateDto {
+public class StudentEnrollmentCreateDto {
 
     @ApiModelProperty(name = "Data inicio do pagamento", example = "2021-03-12")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
