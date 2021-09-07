@@ -81,7 +81,7 @@ public class UserServiceTest {
     @Test
     public void souldFindUser() {
         // given
-        var user = getUser();
+        User user = getUser();
 
         // when
         User u = userService.findById(user.getId());
@@ -114,7 +114,7 @@ public class UserServiceTest {
     }
 
     private User getUser() {
-        var user = User.builder()
+        User user = User.builder()
                 .name("Tester Test")
                 .username("tester")
                 .email("test@gmail.com")
